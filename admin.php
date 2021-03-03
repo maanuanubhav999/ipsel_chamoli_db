@@ -19,18 +19,24 @@ table, th, td {
 <label for="option">Choose a Department:</label>
 
 <select name="option" id="option">
+<option value="all">ALL</option>
+
   <option value="agriculture">agriculture</option>
   <option value="horticulture">horticulture</option>
   <option value="fisheries">fisheries</option>
   <option value="shop">shop</option>
+  
 
 </select>
     <input type="submit" name="submit" value="submit"/>
 </form>
 <?php
+// session_start();
+   // $sql ="";
     $servername = "localhost";
     $username = "root";
     $password = "";
+    
     $dbname = "ipsel_chamoli";
     //$conn= mysqli_connect($servername,$username,$password,$dbname);
     $mysqli = new mysqli($servername, $username, $password, $dbname);
@@ -39,20 +45,29 @@ table, th, td {
       
        if(isset($_GET['submit'])){
       $selected_val = $_GET['option'];
+
+
+      if ($selected_val=="all"){
+        $sql= "select * from users";
+      }
+      else{
+        $sql = "select * from users where options='$selected_val'";
+      }
       echo "You have selected:" .$selected_val;
       echo ("<br> "); 
-      $sql = "select * from users where options='$selected_val'";
       
-      $result = mysqli_query($mysqli, $sql);
       
+    //   $result = mysqli_query($mysqli, $sql);
+    //   $_SESSION['result'] = $result;
+
           
-      mysqli_close($mysqli);
-     
-      
+     // mysqli_close($mysqli);
       
      
       }
     }
+   $sql= "select * from users";
+    $result = mysqli_query($mysqli, $sql);
     ?>
 
 <table class="table table-hover">
@@ -68,10 +83,14 @@ table, th, td {
     </tr>
   </thead>
   <tbody>
+
   <?php
+//   session_start();
+
+//   $result = $_SESSION['result'];
   if (mysqli_num_rows($result) > 0) {
       
-      $i = 1;
+    
 // output data of each row
 
 while($row = mysqli_fetch_assoc($result)) {
@@ -85,11 +104,16 @@ while($row = mysqli_fetch_assoc($result)) {
 		   <td><?php echo $row ['address']; ?></td>  
        <td><?php echo $row ['options']; ?></td>  
        <td><?php echo $row ['status'];  ?> 
-              <button type="button" type="submit" value="accept"  class="btn btn-success"><i class="fas fa-edit">Accept</i></button>
-            <button type="button" type="submit" value="reject" class="btn btn-danger"><i class="far fa-trash-alt">Reject</i></button> </td>  
+              <button type="button" type="submit" value="accept" onclick="myFunction1()" class="btn btn-success"><i class="fas fa-edit"></i>Accept</button>
+            <button type="button" type="submit" value="reject" onclick="myFunction2()" class="btn btn-danger"><i class="far fa-trash-alt"></i>Reject</button> </td>  
+            
 
 		   </tr>
-		<?php } ?>
+		<?php }
+
+       
+        
+        ?>
     <?php
 
 } else {

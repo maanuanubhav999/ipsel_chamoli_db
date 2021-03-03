@@ -18,6 +18,7 @@
         }
         
         public function getDb(){
+            $mysqli -> set_charset("utf8");
             return $this->connect;
         }
     }
