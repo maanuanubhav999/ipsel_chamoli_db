@@ -14,7 +14,6 @@ table, th, td {
 }
 </style>
 <body>
-
 <form action="" method="get">
 <label for="option">Choose a Department:</label>
 
@@ -31,8 +30,8 @@ table, th, td {
     <input type="submit" name="submit" value="submit"/>
 </form>
 <?php
-// session_start();
-   // $sql ="";
+ session_start();
+     $sql= "select * from users";
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -55,7 +54,7 @@ table, th, td {
       }
       echo "You have selected:" .$selected_val;
       echo ("<br> "); 
-      
+      $_SESSION['selected_val']=$selected_val;
       
     //   $result = mysqli_query($mysqli, $sql);
     //   $_SESSION['result'] = $result;
@@ -66,7 +65,7 @@ table, th, td {
      
       }
     }
-   $sql= "select * from users";
+  
     $result = mysqli_query($mysqli, $sql);
     ?>
 
@@ -88,12 +87,11 @@ table, th, td {
 //   session_start();
 
 //   $result = $_SESSION['result'];
-  if (mysqli_num_rows($result) > 0) {
-      
-    
+if (mysqli_num_rows($result) > 0) {
 // output data of each row
-
+$i=0;
 while($row = mysqli_fetch_assoc($result)) {
+  $i=$i+1;
 ?>  
  <tr > 
  <th scope="row"><?php  echo $row ['aadhar_no']; ?> </th>
@@ -103,15 +101,24 @@ while($row = mysqli_fetch_assoc($result)) {
 		   <td><?php echo $row ['fathers_name']; ?></td>
 		   <td><?php echo $row ['address']; ?></td>  
        <td><?php echo $row ['options']; ?></td>  
-       <td><?php echo $row ['status'];  ?> 
-              <button type="button" type="submit" value="accept" onclick="myFunction1()" class="btn btn-success"><i class="fas fa-edit"></i>Accept</button>
-            <button type="button" type="submit" value="reject" onclick="myFunction2()" class="btn btn-danger"><i class="far fa-trash-alt"></i>Reject</button> </td>  
-            
+       <td><?php echo $row ['status'];  ?>
 
+       <form action="status.php"  method="get">
+<label for="status">Accept/Reject Reason:</label>
+<input type="text" name="text">
+<input type="hidden" name="aadhar_no" value="<?php  echo $row ['aadhar_no']; ?>" />
+<select name="acceptreject" id="acceptreject">
+<option value="accepted">Accept</option>
+<option value="rejected">Reject</option>
+</select>
+    <input type="submit" name="submit" value="submit"/>
+</form>
+            </td> 
 		   </tr>
+
 		<?php }
 
-       
+     
         
         ?>
     <?php
