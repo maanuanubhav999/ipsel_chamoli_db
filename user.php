@@ -9,8 +9,8 @@
             header('content-type: application/json; charset=utf-8');
         }
         //if user already exits (we also want if user exits to continue the login process)
-        public function isLoginExist($aadhar_no, $contact_no){
-            $query = "select * from ".$this->db_table." where aadhar_no = '$aadhar_no' AND contact_no = '$contact_no'";
+        public function isLoginExist($date_of_birth,$contact_no){
+            $query = "select * from ".$this->db_table." where contact_no = '$contact_no' And date_of_birth ='$date_of_birth'";
             $result = mysqli_query($this->db->getDb(), $query);
             if(mysqli_num_rows($result) > 0){
               //  mysqli_close($this->db->getDb());  
@@ -21,21 +21,22 @@
         }
 
         //registrying new user
-        public function createNewRegisterUser($aadhar_no, $contact_no, $name, $fathers_name, $address, $options){
-            $isExisting = $this->isLoginExist($aadhar_no, $contact_no);    
+        public function createNewRegisterUser($contact_no, $name, $fathers_name, $address, $options,$date_of_birth,$email_id,$gender,$pincode,$activity_work,$activity_desc){
+           $isExisting = $this->isLoginExist($date_of_birth,$contact_no);  
+           
             if($isExisting){  
                 $json['success'] = 0;
                 $json['message'] = "Error in registering. Probably the aadhar_no/contact_no already exists";
             }   
             else{
-                $query = "insert into ".$this->db_table." (aadhar_no, contact_no, name, fathers_name, address, options) values ('$aadhar_no', '$contact_no', '$name', '$fathers_name','$address','$options')";
+                $query = "insert into ".$this->db_table." (contact_no, name,email_id,gender,pincode,activity_work,activity_desc,fathers_name, address,date_of_birth, options) values ( '$contact_no', '$name','$email_id', '$gender','$pincode','$activity_work','$activity_desc','$fathers_name','$address','$date_of_birth','$options')";
                 $inserted = mysqli_query($this->db->getDb(), $query);                
                 if($inserted == 1){
                     $json['success'] = 1;
                     $json['message'] = "Successfully registered the user";
                 }else{
                     $json['success'] = 0;
-                    $json['message'] = "Error in registering. Probably the aadhar_no_no_no/contact_no already exists";
+                    $json['message'] = "Error in registering. ";
                 }
                //mysqli_close($this->db->getDb());
         }

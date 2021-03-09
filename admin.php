@@ -23,7 +23,13 @@ table, th, td {
   <option value="agriculture">agriculture</option>
   <option value="horticulture">horticulture</option>
   <option value="fisheries">fisheries</option>
-  <option value="shop">shop</option>
+  <option value="Industries">Industries</option>
+<option value="tourism">Tourism</option>
+<option value="Animal husbandry">animal husbandry</option>
+<option value="Nagar Nigam">nagar nigam</option>
+<option value="pisciculture">pisciculture</option>
+
+
   
 
 </select>
@@ -35,7 +41,7 @@ table, th, td {
     $servername = "localhost";
     $username = "root";
     $password = "";
-    
+    $selected_val= "all";
     $dbname = "ipsel_chamoli";
     //$conn= mysqli_connect($servername,$username,$password,$dbname);
     $mysqli = new mysqli($servername, $username, $password, $dbname);
@@ -51,10 +57,11 @@ table, th, td {
       }
       else{
         $sql = "select * from users where options='$selected_val'";
+        $_SESSION['selected_val']=$selected_val;
       }
       echo "You have selected:" .$selected_val;
       echo ("<br> "); 
-      $_SESSION['selected_val']=$selected_val;
+     
       
     //   $result = mysqli_query($mysqli, $sql);
     //   $_SESSION['result'] = $result;
@@ -72,11 +79,17 @@ table, th, td {
 <table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Aadhar No</th>
+      <th scope="col"> number</th>
       <th scope="col">contact No</th>
       <th scope="col">Name</th>
-      <th scope="col">fathers name</th>
-      <th scope="col">Address</th>
+      <th scope="col">date of birth</th>
+      <th scope="col">Email ID</th>
+      <th scope="col">gender</th>
+      <th scope="col">pincode</th>
+      <th scope="col">activity work</th>
+      <th scope="col">activity description</th>
+           <th scope="col">fathers name</th>
+            <th scope="col">Address</th>
       <th scope="col">department</th>
       <th scope="col">Status</th>
     </tr>
@@ -94,10 +107,16 @@ while($row = mysqli_fetch_assoc($result)) {
   $i=$i+1;
 ?>  
  <tr > 
- <th scope="row"><?php  echo $row ['aadhar_no']; ?> </th>
+ <th scope="row"><?php  echo $row ['number']; ?> </th>
       
 		   <td><?php echo $row ['contact_no']; ?></td>
 		   <td><?php echo $row ['name']; ?></td>
+                    <td><?php echo $row ['date_of_birth']; ?></td>
+                    <td><?php echo $row ['email_id']; ?></td>
+                    <td><?php echo $row ['gender']; ?></td>
+                    <td><?php echo $row ['pincode']; ?></td>
+                    <td><?php echo $row ['activity_work']; ?></td>
+                    <td><?php echo $row ['activity_desc']; ?></td>
 		   <td><?php echo $row ['fathers_name']; ?></td>
 		   <td><?php echo $row ['address']; ?></td>  
        <td><?php echo $row ['options']; ?></td>  
@@ -106,7 +125,7 @@ while($row = mysqli_fetch_assoc($result)) {
        <form action="status.php"  method="get">
 <label for="status">Accept/Reject Reason:</label>
 <input type="text" name="text">
-<input type="hidden" name="aadhar_no" value="<?php  echo $row ['aadhar_no']; ?>" />
+<input type="hidden" name="contact_no" value="<?php  echo $row ['contact_no']; ?>" />
 <select name="acceptreject" id="acceptreject">
 <option value="accepted">Accept</option>
 <option value="rejected">Reject</option>

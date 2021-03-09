@@ -1,12 +1,12 @@
 <?php
 include_once('connection.php');
 $aadhar_no="";
-if(isset($_POST['aadhar_no'])){
+if(isset($_POST['contact_no'])){
         
-$aadhar_no = $_POST['aadhar_no'];}
+$contact_no = $_POST['contact_no'];}
     
 	//$stmt = $conn->prepare("SELECT status, text FROM users where aadhar_no='$aadhar_no'");
-  $stmt = $conn->prepare("SELECT status, text FROM users where aadhar_no='$aadhar_no'");
+  $stmt = $conn->prepare("SELECT status, text FROM users where contact_no='$contact_no'");
 	$stmt->execute();
     //can make functionality for accepted or rejected here also//
 	$user = $stmt->fetch();
